@@ -1,20 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ApiController!{% endblock %}
+{% block title %}Users List{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/laragon/www/Louis Hayotte/Symfony-API/src/Controller/ApiController.php</code></li>
-        <li>Your template at <code>C:/laragon/www/Louis Hayotte/Symfony-API/templates/api/index.html.twig</code></li>
-    </ul>
+<div class="users">
+    {% for user in users.results %}
+        <div class="user">
+            <div class="top">
+                <div>
+                    <h2>{{user.name.title}} {{user.name.last}} {{user.name.first}}</h2>
+                    <p class="txt-light"><i class="ri-mail-line"></i>&nbsp;{{ user.email }}</p>
+                    <p class="txt-light"><i class="ri-smartphone-line"></i>&nbsp;{{ user.phone }}</p>
+                </div>
+                <div>
+                    <img src={{ user.picture.large }} alt="">
+                </div>
+            </div>
+            <div class="details">
+                <div>
+                    <i class="ri-map-pin-2-line"></i>&nbsp; 
+                    {{ user.location.street.number }} {{ user.location.street.name }}
+                    <p>{{ user.location.postcode }} {{ user.location.city }}</p>
+                    <p>{{ user.location.country }}</p>
+                </div>
+                <div class="data">
+                    <form action={{ path('user_add')}} method='POST'>
+                        <input type="hidden" name="title" value={{ user.name.title }}>
+                        <input type="hidden" name="last" value={{ user.name.last }}>
+                        <input type="hidden" name="first" value={{ user.name.first }}>
+                        <input type="hidden" name="email" value={{ user.email }}>
+                        <input type="hidden" name="phone" value={{ user.phone }}>
+                        <input type="hidden" name="picture" value={{ user.picture.large }}>
+                        <input type="hidden" name="streetnumber" value={{ user.location.street.number }}>
+                        <input type="hidden" name="streetname" value={{ user.location.street.name }}>
+                        <input type="hidden" name="postcode" value={{ user.location.postcode }}>
+                        <input type="hidden" name="city" value={{ user.location.city }}>
+                        <input type="hidden" name="country" value={{ user.location.country }}>
+                        <input type="hidden" name="uuid" value={{ user.login.uuid }}>
+                        <button type="submit" class="send-form">
+                            <i class="ri-folder-add-line"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 </div>
+
+
 {% endblock %}
