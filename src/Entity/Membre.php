@@ -5,9 +5,16 @@ namespace App\Entity;
 use App\Repository\MembreRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(repositoryClass: MembreRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => 'membre:item']),
+        new GetCollection(normalizationContext: ['groups' => 'membre:list']),
+    ]
+)]
 class Membre
 {
     #[ORM\Id]
